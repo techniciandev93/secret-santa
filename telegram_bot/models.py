@@ -27,7 +27,7 @@ class Game(models.Model):
 
 
 class Gamer(models.Model):
-    game_name = models.ForeignKey(Game, verbose_name="Название игры", on_delete=models.CASCADE)
+    game_name = models.ForeignKey(Game, related_name='gamers', verbose_name="Название игры", on_delete=models.CASCADE)
     gamer = models.CharField('Имя игрока', max_length=100)
     email = models.EmailField('Электронная почта', max_length=254)
     vishlist = models.CharField('Список пожеланий', max_length=200)
