@@ -14,7 +14,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'check-every-5-sec': {
         'task': 'secret_santa.tasks.add',
-        'schedule': 5.0,
+        'schedule': 10.0,
     },
 }
 app.conf.timezone = 'UTC'
