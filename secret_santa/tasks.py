@@ -6,7 +6,7 @@ from telegram_bot.models import Game, Gamer, Sortition
 
 
 @app.task
-def add():
+def get_sortition():
     all_games = Game.objects.all()
     today = datetime.date.today().isoformat()
 
@@ -36,5 +36,5 @@ def add():
                 Он написал Санте письмо: {recipient.santa_letter}
                 Вот что он хочет получить в подарок: {recipient.vishlist}
                 '''
-
-                send_mail('Итоги игры "Тайный Санта"', message, 'info@santa.ru', [santa_email]) #заменить на сообщение в телеграм
+                print(message)
+                #send_mail('Итоги игры "Тайный Санта"', message, 'info@santa.ru', [santa_email]) #заменить на сообщение в телеграм
