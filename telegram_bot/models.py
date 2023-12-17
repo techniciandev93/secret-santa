@@ -24,6 +24,7 @@ class Game(models.Model):
     start_registration_period = models.DateTimeField(verbose_name='Начало регистрации')
     end_registration_period = models.DateTimeField(verbose_name='Конец регистрации')
     shipping_date = models.DateField(verbose_name='Дата доставки подарка')
+    drawing_lots = models.BooleanField(verbose_name='Жеребьёвка', default=False)
 
     class Meta:
         verbose_name = 'Игра'
