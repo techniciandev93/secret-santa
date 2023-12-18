@@ -20,7 +20,7 @@ class Game(models.Model):
     uuid = models.UUIDField(verbose_name='Идентификатор игры', default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(verbose_name='Название игры', max_length=100)
     limit_cost = models.BooleanField(verbose_name='Ограничение стоимости подарка', null=True)
-    price_ranges = models.ManyToManyField(PriceRange, verbose_name='Диапазон цены')
+    price_ranges = models.ManyToManyField(PriceRange, verbose_name='Диапазон цены', blank=True, related_name='games')
     start_registration_period = models.DateTimeField(verbose_name='Начало регистрации')
     end_registration_period = models.DateTimeField(verbose_name='Конец регистрации')
     shipping_date = models.DateField(verbose_name='Дата доставки подарка')

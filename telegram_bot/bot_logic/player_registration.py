@@ -2,6 +2,7 @@ import collections
 
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.utils.timezone import localtime
 
 from telegram_bot.bot_logic.loader import bot
 from telegram_bot.models import Gamer
@@ -54,7 +55,7 @@ def get_santa_letter(message):
     if message.text and message.text.strip():
         player_data[message.chat.id]['santa_letter'] = message.text
         create_gamer(player_data[message.chat.id])
-        date = player_data[message.chat.id]['game_instance'].end_registration_period.strftime("%Y-%m-%d %H:%M")
+        date = localtime(player_data[message.chat.id]['game_instance'].end_registration_period).strftime("%Y-%m-%d %H:%M")
         bot.send_message(message.chat.id, f"Превосходно, ты в игре! "
                                           f"{date} мы "
                                           f"проведем жеребьевку и ты узнаешь имя"

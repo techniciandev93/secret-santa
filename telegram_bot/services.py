@@ -34,21 +34,22 @@ def create_draw(game):
     current_time = localtime()
     game_instance = Game.objects.filter(pk=game.id, end_registration_period__lte=current_time).first()
 
-    if not game_instance.drawing_lots and game_instance:
-        result_separate = separate_players(game.gamers.all())
-        game_instance.drawing_lots = True
-        game_instance.save()
-        for user in result_separate:
-            Sortition.objects.get_or_create(
-                game=game,
-                gifter=user,
-                recipient=result_separate[user]
-            )
-            bot.send_message(user.telegram_id, f'Жеребьевка в игре “Тайный Санта” проведена! Спешу сообщить тебе '
-                                               f'выпал:\n'
-                                               f'{result_separate[user].gamer}\n'
-                                               f'Email: {result_separate[user].email}\n'
-                                               f'Желаемый список подарков:\n'
-                                               f'{result_separate[user].vishlist}\n'
-                                               f'Письмо Санте:\n'
-                                               f'{result_separate[user].santa_letter}')
+    if game_instance:
+        if not game_instance.drawing_lots:
+            result_separate = separate_players(game.gamers.all())
+            game_instance.drawing_lots = True
+            game_instance.save()
+            for user in result_separate:
+                Sortition.objects.get_or_create(
+                    game=game,
+                    gifter=user,
+                    recipient=result_separate[user]
+                )
+                bot.send_message(user.telegram_id, f'Жеребьевка в игре “Тайный Санта” проведена! Спешу сообщить тебе '
+                                                   f'выпал:\n'
+                                                   f'{result_separate[user].gamer}\n'
+                                                   f'Email: {result_separate[user].email}\n'
+                                                   f'Желаемый список подарков:\n'
+                                                   f'{result_separate[user].vishlist}\n'
+                                                   f'Письмо Санте:\n'
+                                                   f'{result_separate[user].santa_letter}')

@@ -4,11 +4,26 @@ from .models import Gamer, Sortition, Game, PriceRange
 from .services import create_draw
 
 
+class GamerInline(admin.StackedInline):
+    model = Gamer
+    extra = 0
+
+
+class PriceRangeInlines(admin.TabularInline):
+    model = PriceRange.games.through
+    extra = 0
+    raw_id_fields = ('pricerange',)
+
+
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
+    inlines = [
+        GamerInline, PriceRangeInlines
+    ]
+    exclude = ('price_ranges',)
+
     list_display = ['uuid', 'name', 'limit_cost', 'start_registration_period',
                     'end_registration_period', 'shipping_date']
-
     actions = ('drawing_lots',)
 
     @admin.action(description='Провести жеребьевку')
@@ -24,7 +39,7 @@ class PriceRangeAdmin(admin.ModelAdmin):
 
 @admin.register(Gamer)
 class GamerAdmin(admin.ModelAdmin):
-    pass
+    raw_id_fields = ('creator', 'game_name')
 
 
 @admin.register(Sortition)
